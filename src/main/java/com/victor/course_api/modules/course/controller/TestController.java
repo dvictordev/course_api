@@ -1,4 +1,4 @@
-package com.victor.course_api.controller;
+package com.victor.course_api.modules.course.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
