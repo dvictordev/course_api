@@ -3,17 +3,12 @@ package com.victor.course_api.modules.course.entities;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.victor.course_api.modules.course.enums.ActiveEnum;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -30,7 +25,6 @@ public class CourseEntity {
 
     private String category;
 
-    @Enumerated(EnumType.ORDINAL)
     private ActiveEnum Active;
 
     @CreationTimestamp
