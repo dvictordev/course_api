@@ -4,6 +4,7 @@ import com.victor.course_api.modules.course.dto.RequestDto;
 import com.victor.course_api.modules.course.entities.CourseEntity;
 import com.victor.course_api.modules.course.enums.ActiveEnum;
 import com.victor.course_api.modules.course.useCases.CourseUseCase;
+import com.victor.course_api.modules.course.useCases.DeleteCourseUseCase;
 import com.victor.course_api.modules.course.useCases.FindAllCoursesUseCase;
 import com.victor.course_api.modules.course.useCases.UpdateCourse;
 import jakarta.validation.Valid;
@@ -26,6 +27,9 @@ public class CourseController {
 
     @Autowired
     private UpdateCourse updateCourse;
+
+    @Autowired
+    private DeleteCourseUseCase deleteCourseUseCase;
 
     @PostMapping()
     public ResponseEntity<Object> createCourse(@Valid @RequestBody CourseEntity course) {
@@ -51,5 +55,12 @@ public class CourseController {
             var course = this.updateCourse.execute(UUID.fromString(id), requestBody);
 
             return ResponseEntity.ok().body(course);
+    };
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteCourse(@PathVariable String id){
+        var course = this.deleteCourseUseCase.execute(UUID.fromString(id));
+
+        return ResponseEntity.ok(course);
     };
 }

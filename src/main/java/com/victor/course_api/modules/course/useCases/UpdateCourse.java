@@ -1,17 +1,15 @@
 package com.victor.course_api.modules.course.useCases;
 
-import com.victor.course_api.modules.course.dto.RequestDto;
 import com.victor.course_api.modules.course.entities.CourseEntity;
 import com.victor.course_api.modules.course.exceptions.CourseNotFoundException;
 import com.victor.course_api.modules.course.repositorie.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
+
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
-import java.text.Format;
+
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,7 +22,9 @@ public class UpdateCourse {
 
         System.out.println(requestBody);
 
-        CourseEntity course = this.courseRepository.findById(id).get();
+        CourseEntity course = this.courseRepository.findById(id).orElseThrow(()-> {
+            throw new CourseNotFoundException();
+        });
 
         requestBody.forEach((key, value) -> {
         var field = ReflectionUtils.findField(CourseEntity.class, key);
