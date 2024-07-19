@@ -11,5 +11,4 @@ public class RequestDto {
 
     private String category;
 
-    private ActiveEnum Active;
 }

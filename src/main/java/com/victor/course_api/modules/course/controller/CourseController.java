@@ -5,10 +5,14 @@ import com.victor.course_api.modules.course.entities.CourseEntity;
 import com.victor.course_api.modules.course.enums.ActiveEnum;
 import com.victor.course_api.modules.course.useCases.CourseUseCase;
 import com.victor.course_api.modules.course.useCases.FindAllCoursesUseCase;
+import com.victor.course_api.modules.course.useCases.UpdateCourse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/course")
@@ -19,6 +23,9 @@ public class CourseController {
 
     @Autowired
     private FindAllCoursesUseCase findAllCoursesUseCase;
+
+    @Autowired
+    private UpdateCourse updateCourse;
 
     @PostMapping()
     public ResponseEntity<Object> createCourse(@Valid @RequestBody CourseEntity course) {
@@ -40,7 +47,9 @@ public class CourseController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateCourse(@PathVariable String id, @RequestBody() RequestDto data ){
-        return ResponseEntity.ok().body(data);
+    public ResponseEntity<Object> updateCourse(@PathVariable String id, @RequestBody() Map<String, Object> requestBody ){
+            var course = this.updateCourse.execute(UUID.fromString(id), requestBody);
+
+            return ResponseEntity.ok().body(course);
     };
 }
