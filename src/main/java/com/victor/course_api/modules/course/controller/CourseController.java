@@ -1,12 +1,7 @@
 package com.victor.course_api.modules.course.controller;
 
-import com.victor.course_api.modules.course.dto.RequestDto;
 import com.victor.course_api.modules.course.entities.CourseEntity;
-import com.victor.course_api.modules.course.enums.ActiveEnum;
-import com.victor.course_api.modules.course.useCases.CourseUseCase;
-import com.victor.course_api.modules.course.useCases.DeleteCourseUseCase;
-import com.victor.course_api.modules.course.useCases.FindAllCoursesUseCase;
-import com.victor.course_api.modules.course.useCases.UpdateCourse;
+import com.victor.course_api.modules.course.useCases.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +26,12 @@ public class CourseController {
     @Autowired
     private DeleteCourseUseCase deleteCourseUseCase;
 
+    @Autowired
+    private ActiveOrInactiveCourse activeOrInactiveCourse;
+
     @PostMapping()
     public ResponseEntity<Object> createCourse(@Valid @RequestBody CourseEntity course) {
-        course.setActive(ActiveEnum.ATIVO);
+        course.setActive(true);
         try{
             var result = this.courseUseCase.execute(course);
             return ResponseEntity.ok().body(result);
@@ -60,6 +58,13 @@ public class CourseController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteCourse(@PathVariable String id){
         var course = this.deleteCourseUseCase.execute(UUID.fromString(id));
+
+        return ResponseEntity.ok(course);
+    };
+
+    @PatchMapping("/{id}/active")
+    public ResponseEntity<Object> activeOrInactiveCourse(@PathVariable String id){
+        var course = this.activeOrInactiveCourse.execute(UUID.fromString(id));
 
         return ResponseEntity.ok(course);
     };

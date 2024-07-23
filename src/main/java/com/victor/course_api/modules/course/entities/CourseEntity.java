@@ -7,8 +7,6 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.victor.course_api.modules.course.enums.ActiveEnum;
-
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
@@ -25,7 +23,7 @@ public class CourseEntity {
 
     private String category;
 
-    private ActiveEnum Active;
+    private Boolean active;
 
     @CreationTimestamp
     private LocalDateTime created_at;
